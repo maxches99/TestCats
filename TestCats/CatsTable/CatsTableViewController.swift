@@ -53,6 +53,10 @@ class CatsTableViewController: UITableViewController, CatsTableViewProtocol {
         self.presenter.openDetail(row: indexPath.row)
     }
     
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        self.presenter.pagination(index: indexPath.row)
+    }
+    
     func reloadData() {
         self.tableView.reloadData()
     }

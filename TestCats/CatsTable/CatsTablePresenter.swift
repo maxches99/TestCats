@@ -14,10 +14,13 @@ protocol CatsTablePresenterProtocol: class {
     var cats: [Post]! { set get }
     func reloadTable()
     func openDetail(row: Int)
+    func pagination(index: Int)
+    var isNewDataLoading: Bool! { get set }
 }
 
 class CatsTablePresenter:CatsTablePresenterProtocol {
     
+    var isNewDataLoading: Bool!
     weak var view: CatsTableViewProtocol!
     var interactor: CatsTableInteractorProtocol!
     var router: CatsTableRouterProtocol!
@@ -40,5 +43,11 @@ class CatsTablePresenter:CatsTablePresenterProtocol {
     
     func openDetail(row: Int) {
         self.router.openDetailsOfCat(post: cats[row])
+    }
+    
+    func pagination(index: Int) {
+        if index >= self.cats.count - 50, !self.isNewDataLoading {
+            self.interactor.downloadJSON()
+        }
     }
 }
